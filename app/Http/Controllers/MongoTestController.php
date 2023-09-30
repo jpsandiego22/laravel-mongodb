@@ -10,7 +10,7 @@ class MongoTestController extends Controller
     function mongoConnect()
     {
         $mongo = new Mongo;
-        $connection = $mongo->laravel_mongodb->user_information1;
+        $connection = $mongo->laravel_mongodb->user_information;
         $response =  $connection->find()->toArray();
 
         // echo $response[0]->fname;
