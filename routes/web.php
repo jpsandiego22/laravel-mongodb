@@ -3,6 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MongoTestController;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +20,7 @@ use App\Http\Controllers\MongoTestController;
 // });
 
 Route::get('/', [MongoTestController::class, 'mongoConnect']);
+
+Route::get('get_data', [MongoTestController::class, 'get_data'])->name('get_data');
+
+// Route::get('get_data', ['as'   => 'get_data','uses' =>'MongoTestController@get_data']);
