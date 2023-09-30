@@ -39,7 +39,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="lname">Last Name</label>
-                                    <input type="text" class="form-control form-control-sm" id="lname">
+                                    <input type="text" class="form-control form-control-sm " id="lname">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -50,16 +50,28 @@
                                 <div class="form-group">
                                     <label for="address">Address</label>
                                     <select multiple class="form-control" id="address">
-                                    <option>Cavite</option>
-                                    <option>Batangas</option>
-                                    <option>Quezon Province</option>
-                                    <option>Bulacan</option>
-                                    <option>Mandaluyong</option>
+                                        <option>Cavite</option>
+                                        <option>Batangas</option>
+                                        <option>Quezon Province</option>
+                                        <option>Bulacan</option>
+                                        <option>Mandaluyong</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary float-right">Submit</button>
+                                <h5 class="float-left">
+                                    Favorite  
+                                </h5>
+                                <button class="btn btn-success btn-sm float-right" onclick='addInput()'>+Add input</button>
+                                <div class="row">
+                                    <div id='input-cont' class="col-md-12">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12"><br></div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary btn-sm float-right">Submit</button>
                             </div>
                         </div>
                     </form>
@@ -126,6 +138,36 @@
                     }
                 })
             }
+           
+
+            // Call addInput() function on button click
+            function addInput(){
+                var container = document.getElementById('input-cont');
+                container.appendChild(input);
+            }
+            $("#submit_data").on('submit', function (e) {
+               
+                e.preventDefault();
+                $('#submit_data').find('input').each(function()
+                {
+                    if($(this).val())
+                    {
+                        $(this).removeClass('is-invalid')
+                    }
+                    else
+                    {
+                        $(this).addClass('is-invalid')
+                    }
+                });
+                if($('#address option:selected').text())
+                {
+                    $("#address").removeClass('border border-danger')
+                }
+                else
+                {
+                    $("#address").addClass('border border-danger')
+                }
+            });
         </script>
         
     </body>
