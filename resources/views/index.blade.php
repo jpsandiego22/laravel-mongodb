@@ -14,7 +14,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <add http-equiv="X-Frame-Options" content="deny">
         <add name="X-Frame-Options" value="SAMEORIGIN" />
-        <title>Hello, world!</title>
+        <title>Laravel MongoDB Crud (Jquery,Ajax,Bootstrap 4)</title>
     </head>
     <body>
         <div class="container-fluid mt-5">
@@ -27,7 +27,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8 border border-primary">
                     <form id="submit_data" class="p-5">
-                        <div class="row">
+                        <div class="row p-1">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fname">First Name</label>
@@ -62,11 +62,9 @@
                                 <h5 class="float-left">
                                     Favorite  
                                 </h5>
-                                <button class="btn btn-success btn-sm float-right" onclick='addInput()'>+Add input</button>
-                                <div class="row">
-                                    <div id='input-cont' class="col-md-12">
-
-                                    </div>
+                                <button type="button" class="btn btn-success btn-sm float-right" onclick='addInput()'>+Add input</button>
+                                <div class="row" id='input-cont'>
+                                   
                                 </div>
                             </div>
                             <div class="col-md-12"><br></div>
@@ -142,8 +140,14 @@
 
             // Call addInput() function on button click
             function addInput(){
-                var container = document.getElementById('input-cont');
-                container.appendChild('<div class="col-md-12">');
+                $("#input-cont").append('<div class="col-md-6 pt-1">  '+
+                                            '<label>Games</label><br>'+
+                                            '<input type="text" class="form-control form-control-sm" id="games[]">'+
+                                        '</div>'+
+                                        '<div class="col-md-6 pt-1">  '+
+                                            '<label>With</label><br>'+
+                                            '<input type="text" class="form-control form-control-sm" id="with[]">'+
+                                        '</div>');
             }
             $("#submit_data").on('submit', function (e) {
                
