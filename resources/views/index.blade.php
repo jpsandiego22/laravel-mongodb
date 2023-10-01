@@ -143,7 +143,7 @@
             // Call addInput() function on button click
             function addInput(){
                 var container = document.getElementById('input-cont');
-                container.appendChild(input);
+                container.appendChild('<div class="col-md-12">');
             }
             $("#submit_data").on('submit', function (e) {
                
