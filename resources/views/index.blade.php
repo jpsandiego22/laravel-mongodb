@@ -50,11 +50,11 @@
                                 <div class="form-group">
                                     <label for="address">Address</label>
                                     <select multiple class="form-control" id="address">
-                                        <option>Cavite</option>
-                                        <option>Batangas</option>
-                                        <option>Quezon Province</option>
-                                        <option>Bulacan</option>
-                                        <option>Mandaluyong</option>
+                                        <option value="Cavite">Cavite</option>
+                                        <option value="Batangas">Batangas</option>
+                                        <option value="Quezon Province">Quezon Province</option>
+                                        <option value="Bulacan">Bulacan</option>
+                                        <option value="Mandaluyong">Mandaluyong</option>
                                     </select>
                                 </div>
                             </div>
@@ -142,25 +142,29 @@
             function addInput(){
                 $("#input-cont").append('<div class="col-md-6 pt-1">  '+
                                             '<label>Games</label><br>'+
-                                            '<input type="text" class="form-control form-control-sm" id="games[]">'+
+                                            '<input type="text" class="form-control form-control-sm" name="games[]">'+
                                         '</div>'+
                                         '<div class="col-md-6 pt-1">  '+
                                             '<label>With</label><br>'+
-                                            '<input type="text" class="form-control form-control-sm" id="with[]">'+
+                                            '<input type="text" class="form-control form-control-sm" name="with[]">'+
                                         '</div>');
             }
             $("#submit_data").on('submit', function (e) {
                
                 e.preventDefault();
+                var count = 0;
+                var fav = [];
                 $('#submit_data').find('input').each(function()
                 {
                     if($(this).val())
                     {
-                        $(this).removeClass('is-invalid')
+                        $(this).removeClass('is-invalid');
+                        
                     }
                     else
                     {
                         $(this).addClass('is-invalid')
+                        count++;
                     }
                 });
                 if($('#address option:selected').text())
@@ -170,7 +174,60 @@
                 else
                 {
                     $("#address").addClass('border border-danger')
+                    count++;
                 }
+                // alert($('input[name^="games[]"]'))
+                if($('input[name^="games[]"]'))
+                {
+  
+
+                    var arr = $('input[name^="games"]');
+                    var fav_with = $('input[name^="with"]');
+  
+                    for(var i = 0; i < arr.length; i++)
+                    {
+                        fav[i] = {name:arr[i].value, 
+                                with:fav_with[i].value};
+
+                    }
+                }
+
+                var i_address = 0;
+                var address = [];
+                $('#address > option:selected').each(function() {
+                   address[i_address] = $(this).val();
+                   i_address++;
+                });
+
+                if(count==0)
+                {
+                    $.ajax({
+                        url:'{{ route("submit_data") }}',
+                        type:'get',
+                        data: 
+                        {
+                            fname: $("#fname").val(),
+                            mname: $("#mname").val(),
+                            lname: $("#lname").val(),
+                            prefix: $("#prefix").val(),
+                            address: address,
+                            favs:fav,
+                            '_token': $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        success:function(data)
+                        {
+                            alert(data);
+                            var obj = JSON.parse(data);
+                        
+                            // if(obj.status == "success")
+                            // {
+                            //     $("#example tbody").append(obj.list); 
+                            // }
+                            
+                        }
+                    })
+                }
+                
             });
         </script>
         

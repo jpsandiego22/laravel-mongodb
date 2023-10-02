@@ -7,7 +7,7 @@ use MongoDB\Client as Mongo;
 
 class MongoTestController extends Controller
 {
-    function mongoConnect()
+    function mongoConnect(Request $request)
     {
         $mongo = new Mongo;
         $connection = $mongo->laravel_mongodb->user_information;
@@ -59,5 +59,20 @@ class MongoTestController extends Controller
             $data['status'] = "error";
         }
         print_r(json_encode($data));
+    }
+    public function submit_data(Request $request)
+    {
+        $data['fname'] = $request->input('fname');
+        $data['mname'] = $request->input('mname');
+        $data['lname'] = $request->input('lname');
+        $data['prefix'] = $request->input('prefix');
+        $data['address'] = $request->input('address');
+        $data['favorite'] = $request->input('favs');
+
+        $mongo = new Mongo;
+        $connection = $mongo->laravel_mongodb->user_information;
+        $response =  $connection->insertOne([$data]);
+
+        print_r($response);
     }
 }

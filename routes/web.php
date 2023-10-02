@@ -16,11 +16,16 @@ use Illuminate\Http\Request;
 */
 
 // Route::get('/', function () {
-//     return view('welcome');
+    // return view('welcome');
+
 // });
 
 Route::get('/', [MongoTestController::class, 'mongoConnect']);
 
 Route::get('get_data', [MongoTestController::class, 'get_data'])->name('get_data');
+Route::get('submit_data', [MongoTestController::class, 'submit_data'])->name('submit_data');
 
+// Route::get('/ping', function (Request  $request) 
+// {   
+// });
 // Route::get('get_data', ['as'   => 'get_data','uses' =>'MongoTestController@get_data']);
