@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MongoTestController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,10 +23,6 @@ use Illuminate\Http\Request;
 
 Route::get('/', [MongoTestController::class, 'mongoConnect']);
 
+Route::get('/post/{slug}', [PostController::class, 'show']);
 Route::get('get_data', [MongoTestController::class, 'get_data'])->name('get_data');
 Route::get('submit_data', [MongoTestController::class, 'submit_data'])->name('submit_data');
-
-// Route::get('/ping', function (Request  $request) 
-// {   
-// });
-// Route::get('get_data', ['as'   => 'get_data','uses' =>'MongoTestController@get_data']);

@@ -44,8 +44,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="prefix">Age</label>
-                                    <input type="text" class="form-control form-control-sm" id="prefix">
+                                    <label for="age">Age</label>
+                                    <input type="text" class="form-control form-control-sm" id="age">
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>
@@ -186,7 +186,7 @@
   
                     for(var i = 0; i < arr.length; i++)
                     {
-                        fav[i] = {name:arr[i].value, 
+                        fav[i] = {games:arr[i].value, 
                                 with:fav_with[i].value};
 
                     }
@@ -210,6 +210,7 @@
                             mname: $("#mname").val(),
                             lname: $("#lname").val(),
                             prefix: $("#prefix").val(),
+                            age:  $("#age").val(),
                             address: address,
                             favs:fav,
                             '_token': $('meta[name="csrf-token"]').attr('content'),
@@ -219,16 +220,38 @@
                             alert(data);
                             var obj = JSON.parse(data);
                         
-                            // if(obj.status == "success")
-                            // {
-                            //     $("#example tbody").append(obj.list); 
-                            // }
+                            if(obj.status == "success")
+                            {
+                                $("#example tbody").append(obj.list); 
+                            }
                             
                         }
                     })
                 }
                 
             });
+            function delete_data(url)
+            {
+                $.ajax({
+                    url:url,
+                    type:'delete',
+                    data: 
+                    {
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success:function(data)
+                    {
+                        alert(data);
+                        // var obj = JSON.parse(data);
+                    
+                        // if(obj.status == "success")
+                        // {
+                        //     $("#example tbody").append(obj.list); 
+                        // }
+                        
+                    }
+                })
+            }
         </script>
         
     </body>
