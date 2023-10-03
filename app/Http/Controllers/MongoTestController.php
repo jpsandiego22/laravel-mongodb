@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 // use MongoDB\Client as Mongo;
 use App\Models\User_information;
 use DB;
@@ -19,7 +20,7 @@ class MongoTestController extends Controller
     {
         $response = collect(DB::connection('mongodb')
         ->collection('user_information')->get());
-
+       
         if(count($response) != 0)
         {
             
@@ -43,14 +44,19 @@ class MongoTestController extends Controller
                 }
                 $data['list'] .= '</td>';
                 $data['list'] .= '<td>';
-                foreach($row['favorite'] as $list1)
+               
+                if($row['favorite'])
                 {
-                    $data['list'] .=  $list1['games'] .' | '. $list1['with'] .'<br>'; 
-            
+                    foreach($row['favorite'] as $list1)
+                    {
+                        $data['list'] .=  $list1['games'] .' | '. $list1['with'] .'<br>'; 
+                
+                    }
                 }
+                
                 $data['list'] .= '</td>';
                 $data['list'] .= '<td>
-                    <a class="btn btn-primary btn-sm">UPDATE</a>
+                    <a data-toggle="modal" data-target="#update_data"  data-id="'.$row['_id'].'" class="btn btn-primary btn-sm mb-1">UPDATE</a>
                     <a onclick="delete_data(\''.url("/") .'/api/users/'.$row['_id'].'\')" class="btn btn-danger btn-sm">DELETE</a>
                 </td></tr>';
             }
@@ -74,13 +80,19 @@ class MongoTestController extends Controller
         $user->address = $request->input('address');
         $user->favorite = $request->input('favs');
         $user->save();
+
+        $data['message'] = "Record Save.";
+        $data['status'] = "success";  
+        print_r(json_encode($data));
     }
     public function destroy($userId)
     {
         $user = User_information::find($userId);
         $user->delete();
 
-        return response()->json(["result" => "ok"], 200);       
+        $data['message'] = "Record Deleted.";
+        $data['status'] = "success";  
+        print_r(json_encode($data));        
     }
     public function update(Request $request, $userId)
     {
@@ -90,6 +102,13 @@ class MongoTestController extends Controller
         $post->slug = $request->slug;
         $post->save();
 
-        return response()->json(["result" => "ok"], 201);       
+        
+        $data['message'] = "Record Updated.";
+        $data['status'] = "success";  
+        print_r(json_encode($data));   
+    }
+    public function get_single_data(Request $request)
+    {
+        
     }
 }

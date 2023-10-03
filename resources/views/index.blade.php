@@ -102,6 +102,36 @@
                 <div class="col-md-2"></div>
             </div>
         </div>
+        {{-- UPDATE MODAL --}}
+        <div class="modal fade" id="update_data" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Recipient:</label>
+                      <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">Message:</label>
+                      <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         
@@ -112,6 +142,31 @@
 
 
         <script>
+            $('#update_data').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget)
+                var ids = button.data('id') 
+                var modal = $(this)
+                modal.find('.modal-title').text('Update Date: ' + button.data('id') )
+                $.ajax({
+                    url:'{{ route("get_single_data") }}',
+                    type:'get',
+                    data: 
+                    {
+                        ids:ids,
+                        '_token': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                    success:function(data)
+                    {
+                        var obj = JSON.parse(data);
+                        
+                        if(obj.status == "success")
+                        {
+                            
+                        }
+                        
+                    }
+                })
+            });
             $(document).ready(function() {
                 get_record()
             });
@@ -217,11 +272,11 @@
                         },
                         success:function(data)
                         {
-                            alert(data);
                             var obj = JSON.parse(data);
                         
                             if(obj.status == "success")
                             {
+                                get_record();
                                 $("#example tbody").append(obj.list); 
                             }
                             
@@ -241,14 +296,12 @@
                     },
                     success:function(data)
                     {
-                        alert(data);
-                        // var obj = JSON.parse(data);
+                        var obj = JSON.parse(data);
                     
-                        // if(obj.status == "success")
-                        // {
-                        //     $("#example tbody").append(obj.list); 
-                        // }
-                        
+                        if(obj.status == "success")
+                        {
+                            get_record();
+                        }
                     }
                 })
             }
