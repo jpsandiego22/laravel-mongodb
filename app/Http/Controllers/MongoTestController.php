@@ -38,10 +38,11 @@ class MongoTestController extends Controller
                 <td>'. $row['prefix'] .'</td>
                 <td>'. $row['age'].'</td>
                 <td>';
-                foreach($row['address'] as $list)
-                {
-                    $data['list'] .= $list .' '; 
-                }
+                // foreach($row['address'] as $list)
+                // {
+                //     $data['list'] .= $list .' '; 
+                // }
+                $data['list'] .= json_encode($row['address']);
                 $data['list'] .= '</td>';
                 $data['list'] .= '<td>';
                
@@ -56,8 +57,8 @@ class MongoTestController extends Controller
                 
                 $data['list'] .= '</td>';
                 $data['list'] .= '<td>
-                    <a data-toggle="modal" data-target="#update_data"  data-id="'.$row['_id'].'" class="btn btn-primary btn-sm mb-1">UPDATE</a>
-                    <a onclick="delete_data(\''.url("/") .'/api/users/'.$row['_id'].'\')" class="btn btn-danger btn-sm">DELETE</a>
+                    <a data-toggle="modal" data-target="#get_update_data"  data-id="'.$row['_id'].'" class="btn btn-primary btn-sm mb-1 text-white">UPDATE</a>
+                    <a onclick="delete_data(\''.url("/") .'/api/users/'.$row['_id'].'\')" class="btn btn-danger btn-sm text-white">DELETE</a>
                 </td></tr>';
             }
         }
@@ -96,19 +97,37 @@ class MongoTestController extends Controller
     }
     public function update(Request $request, $userId)
     {
-        $post = Post::find($userId);
-        $post->title = $request->title;
-        $post->body = $request->body;
-        $post->slug = $request->slug;
-        $post->save();
-
         
+        $user = User_information::find($userId);
+        $user->fname = $request->input('fname');
+        $user->mname = $request->input('mname');
+        $user->lname = $request->input('lname');
+        $user->prefix = $request->input('prefix');
+        $user->age = $request->input('age');
+        $user->address = $request->input('address');
+        $user->favorite = $request->input('favs');
+        $user->save();
+
         $data['message'] = "Record Updated.";
         $data['status'] = "success";  
-        print_r(json_encode($data));   
+        print_r(json_encode($data)); exit;
+       
     }
-    public function get_single_data(Request $request)
+    public function show($ids)
     {
-        
+        $user['data'] = User_information::find($ids)->toArray();
+
+        // print_r($user['data']['address'][0]);exit;
+        if(count($user['data']) != 0)
+        {
+            $user['status'] = "success";
+            
+        }
+        else
+        {
+            $user['message'] = "No Record Found.";
+            $user['status'] = "error";
+        }
+        print_r(json_encode($user));
     }
 }

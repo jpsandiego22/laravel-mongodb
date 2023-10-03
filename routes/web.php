@@ -23,6 +23,7 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', [MongoTestController::class, 'mongoConnect']);
 
-Route::get('/post/{slug}', [PostController::class, 'show']);
+Route::get('/users/{id}', [MongoTestController::class, 'show']);
 Route::get('get_data', [MongoTestController::class, 'get_data'])->name('get_data');
 Route::get('submit_data', [MongoTestController::class, 'submit_data'])->name('submit_data');
+
